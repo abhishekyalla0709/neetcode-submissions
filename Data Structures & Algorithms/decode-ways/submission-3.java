@@ -1,0 +1,28 @@
+class Solution {
+    public int numDecodings(String s) {
+        int[] dp = new int[s.length()];
+        Arrays.fill(dp,-1);
+        return decode(s,0,dp);
+        
+    }
+
+    private int decode(String s, int index, int[] dp){
+        if(index< s.length() && s.charAt(index)=='0'){
+            return 0;
+        }
+        if(index==s.length()){
+            return 1;
+        }
+        if(dp[index]!=-1){
+            return dp[index];
+        }
+        int ans = decode(s,index+1,dp);
+        if(index<s.length()-1 && Character.getNumericValue(s.charAt(index)) == 1 ||
+        index < s.length()-1 &&  Character.getNumericValue(s.charAt(index)) == 2 &&
+           Character.getNumericValue(s.charAt(index+1))<=6){
+            ans+=decode(s,index+2,dp);
+        }
+        dp[index] = ans;
+        return ans;
+    }
+}
